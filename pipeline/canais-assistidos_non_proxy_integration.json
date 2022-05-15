@@ -1,0 +1,125 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-04-20T04:08:08Z",
+    "title": "LambdaCalc"
+  },
+  "host": "",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/calc/{operand1}/{operand2}/{operator}": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "operand2",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operator",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operand1",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "credentials": "arn:aws:iam::904935406762:role/apigAwsProxyRole",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseTemplates": {
+                "application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"input\" : {\n    \"a\" : $inputRoot.a,\n    \"b\" : $inputRoot.b,\n    \"op\" : \"$inputRoot.op\"\n  },\n  \"output\" : {\n    \"c\" : $inputRoot.c\n  }\n}"
+              }
+            }
+          },
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:904935406762:function:Teste/invocations",
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "requestTemplates": {
+            "application/json": 
+                "{\n   \"a\": \"$input.params('operand1')\",\n  \"b\": \"$input.params('operand2')\",\n \"op\": #if($input.params('operator')=='%2F')\"/\"#{else}\"$input.params('operator')\"#end\n   \n}"
+          },
+          "type": "aws"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Input": {
+      "type": "object",
+      "required": [
+        "a",
+        "b",
+        "op"
+      ],
+      "properties": {
+        "a": {
+          "type": "number"
+        },
+        "b": {
+          "type": "number"
+        },
+        "op": {
+          "type": "string",
+          "description": "binary op of ['+', 'add', '-', 'sub', '*', 'mul', '%2F', 'div']"
+        }
+      },
+      "title": "Input"
+    },
+    "Output": {
+      "type": "object",
+      "properties": {
+        "c": {
+          "type": "number"
+        }
+      },
+      "title": "Output"
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "$ref": "#/definitions/Input"
+        },
+        "output": {
+          "$ref": "#/definitions/Output"
+        }
+      },
+      "title": "Result"
+    }
+  },
+  "x-amazon-apigateway-request-validators": {
+    "Validate body": {
+      "validateRequestParameters": false,
+      "validateRequestBody": true
+    },
+    "Validate query string parameters and headers": {
+      "validateRequestParameters": true,
+      "validateRequestBody": false
+    }
+  }
+}
