@@ -27,18 +27,21 @@ resource "aws_s3_bucket" "this" {
 locals {
   s3_origin_id = aws_s3_bucket.this.bucket
 }
+resource "aws_cloudfront_origin_access_identity" "this" {
+  comment = "Identificador unico para o bucket S3"
+}
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.this.bucket_regional_domain_name
-    origin_id = local.s3_origin_id
+    origin_id   = local.s3_origin_id
     s3_origin_config {
-      origin_access_identity = "origin-access-identity/cloudfront/ABCDEFG1234567"
+      origin_access_identity = aws_cloudfront_origin_access_identity.this
     }
   }
   default_root_object = "index.html"
   enabled             = true
-  
+
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
