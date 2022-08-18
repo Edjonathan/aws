@@ -27,6 +27,18 @@ resource "aws_s3_bucket" "this" {
 locals {
   s3_origin_id = aws_s3_bucket.this.bucket
 }
+resource "aws_cloudfront_public_key" "this" {
+  comment     = "predigned url public key"
+  encoded_key = file("public_key.pem")
+  name        = "presigned-url-key"
+}
+
+resource "aws_cloudfront_key_group" "this" {
+  comment = "presigned key group"
+  items   = [aws_cloudfront_public_key.this.id]
+  name    = "presigned-key-group"
+}
+
 resource "aws_cloudfront_origin_access_identity" "this" {
   comment = "Identificador unico para o bucket S3"
 }
@@ -41,12 +53,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
   default_root_object = "index.html"
   enabled             = true
-
+  price_class = "PriceClass_All"
+ 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = local.s3_origin_id
-    
+
     forwarded_values {
       query_string = false
 
