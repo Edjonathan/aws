@@ -10,7 +10,7 @@ resource "aws_autoscaling_group" "this" {
     name                      = "asg"
     vpc_zone_identifier       = [aws_subnet.public[0].id, aws_subnet.public[1].id, aws_subnet.public[2].id]
     launch_configuration      = aws_launch_configuration.ecs_launch_config.name
-
+    protect_from_scale_in     = true
     desired_capacity          = 2
     min_size                  = 1
     max_size                  = 10
