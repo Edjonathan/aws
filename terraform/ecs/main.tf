@@ -52,16 +52,3 @@ resource "aws_ecs_capacity_provider" "this" {
     }
   }
 }
-
-# resource "aws_ecs_service" "this" {
-#   name            = "hello-world-service"
-#   cluster         = aws_ecs_cluster.this.id
-#   task_definition = aws_ecs_task_definition.hello_world.arn
-#   desired_count   = var.app_count
-#   launch_type     = "FARGATE"
-
-#   network_configuration {
-#     security_groups = [aws_security_group.this.id]
-#     subnets         = aws_subnet.private.*.id
-#   }
-# }

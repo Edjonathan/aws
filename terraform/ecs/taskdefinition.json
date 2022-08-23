@@ -1,0 +1,15 @@
+[
+    {
+      "name" : "first",
+      "image"     : "nginxdemos/hello",
+      "cpu"       : 10,
+      "memory"    : 1024,
+      "essential" : true,
+      "portMappings" : [
+        {
+          "containerPort" : 80,
+          "hostPort"      : 80
+        }
+      ]
+    }
+  ]
