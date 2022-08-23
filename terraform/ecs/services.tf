@@ -18,4 +18,8 @@ resource "aws_ecs_service" "this" {
     container_name   = "ecs-container"
     container_port   = 8080
   }
+  network_configuration {
+    subnets          = [for subnet in aws_subnet.public : subnet.id]
+    assign_public_ip = true
+  }
 }
