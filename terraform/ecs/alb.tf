@@ -5,7 +5,7 @@ resource "aws_lb" "this" {
   security_groups    = [aws_security_group.nginx-demo-sg.id]
   subnets            = [for subnet in aws_subnet.public : subnet.id]
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
 
   tags = {
