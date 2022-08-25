@@ -41,7 +41,7 @@ resource "aws_ecs_capacity_provider" "this" {
   name = "cluster-demo-capacity-provider"
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn         = aws_autoscaling_group.this.arn
+    auto_scaling_group_arn = aws_autoscaling_group.this.arn
     #managed_termination_protection = "ENABLED"
 
     managed_scaling {
