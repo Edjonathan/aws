@@ -1,9 +1,9 @@
 resource "aws_ecs_task_definition" "this" {
   family                   = "ecs-nginx-task"
-  container_definitions    = file("taskdefinition.json")
+  container_definitions    = file("containerdefinition.json")
   requires_compatibilities = ["EC2"]
   cpu                      = ".5 vCPU"
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   memory                   = 1024
   #   ephemeral_storage {
   #     size_in_gib = 21

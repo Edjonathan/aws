@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "this" {
   name        = "demo-tf-lb-for-ecs"
   port        = 8080
   protocol    = "HTTP"
-  target_type = "ip"
+  target_type = "instance"
   vpc_id      = aws_vpc.this.id
 
   health_check {

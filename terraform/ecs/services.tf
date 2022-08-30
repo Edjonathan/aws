@@ -16,8 +16,8 @@ resource "aws_ecs_service" "this" {
     container_name   = "ecs-nginx-container"
     container_port   = 8080
   }
-  network_configuration {
-    subnets          = [for subnet in aws_subnet.public : subnet.id]
-    security_groups  = [aws_security_group.nginx-demo-sg.id]
-  }
+  # network_configuration {
+  #   subnets          = [for subnet in aws_subnet.public : subnet.id]
+  #   security_groups  = [aws_security_group.nginx-demo-sg.id]
+  # }
 }
