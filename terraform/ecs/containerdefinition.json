@@ -3,7 +3,7 @@
       "name" : "ecs-nginx-container",
       "image"     : "nginxdemos/hello",
       "cpu"       : 10,
-      "memory"    : 1024,
+      "memory"    : 512,
       "essential" : true,
       "portMappings" : [
         {
