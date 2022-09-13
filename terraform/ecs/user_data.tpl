@@ -1,9 +1,11 @@
 #!/bin/bash
 # Update all packages
-sudo yum update -y
-sudo amazon-linux-extras disable docker
-sudo amazon-linux-extras install -y ecs
-sudo systemctl enable --now ecs
+yum update -y
+amazon-linux-extras disable docker
+amazon-linux-extras install -y ecs
+systemctl enable --now --no-block ecs.service
 #Adding cluster name in ecs config
-echo ECS_CLUSTER="cluster-demo" >> /etc/ecs/ecs.config
-cat /etc/ecs/ecs.config | grep "ECS_CLUSTER"
+cat <<'EOF' >> /etc/ecs/ecs.config
+ECS_CLUSTER=cluster-demo
+ECS_ENABLE_TASK_IAM_ROLE=true
+EOF

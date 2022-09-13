@@ -4,8 +4,14 @@ resource "aws_ecs_service" "this" {
   task_definition = aws_ecs_task_definition.this.arn
   desired_count   = 2
 
-  deployment_maximum_percent         = 100
+  #Percentual de disponilidade
+  #desejado durante a atualização
+  #ex: 0, pode matar todas as tasks e subir de novo
   deployment_minimum_healthy_percent = 0
+  #Tasks novas que serão lançadas para atualizar a versão
+  #ex: 100, se a quantidade de tasks for 8 vai lançar 8 novas
+  #task
+  deployment_maximum_percent         = 100
 
   deployment_controller {
     type = "ECS"
