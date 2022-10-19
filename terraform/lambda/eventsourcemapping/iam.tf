@@ -18,7 +18,13 @@ resource "aws_iam_role" "this" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_task_role_attachment" {
+resource "aws_iam_role_policy_attachment" "kinesis_task_role_attachment" {
+   role = "${aws_iam_role.this.name}"
+   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaKinesisExecutionRole"
+
+}
+
+resource "aws_iam_role_policy_attachment" "sqs_role_attachment" {
    role = "${aws_iam_role.this.name}"
    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
