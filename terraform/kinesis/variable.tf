@@ -10,16 +10,10 @@ variable "aws_profile" {
   default     = "terraform"
 }
 
-variable "instance_ami" {
-  type        = string
-  description = ""
-  default     = "ami-0022f774911c1d690"
-}
-
-variable "instamce_type" {
-  type        = string
-  description = ""
-  default     = "t2.micro"
+variable "s3_bucket_name" {
+    type = string
+    description = "Bucket demo kinesis firehose"
+    default = "demo-bucket-edjonathan-kinesis"
 }
 
 variable "instance_tags" {
